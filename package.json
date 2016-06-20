@@ -1,0 +1,16 @@
+{
+  "name": "soramaru",
+  "version": "0.1.0",
+  "description": "A nice-looking image archiver for Twitter lists",
+  "author": "Jun <me@noraesae.net>",
+  "license": "MIT",
+  "homepage": "https://github.com/noraesae/soramaru",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noraesae/soramaru.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
