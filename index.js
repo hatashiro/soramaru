@@ -34,7 +34,9 @@ app.listen(3000, () => {
 setInterval(async () => {
   const latest = await Tweet.latest();
   const tweets = await getTweets(latest && latest.get('id'));
-  await Promise.all(tweets.map(t => Tweet.insert(t)));
+  await Promise.all(tweets
+    .filter(t => +t.id !== +latest.get('id'))
+    .map(t => Tweet.insert(t)));
 
   // TODO: update clients automatically
-}, 10000)
+}, 15000)
