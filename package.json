@@ -19,7 +19,9 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
     "lodash": "^4.13.1",
     "mz": "^2.4.0",
+    "pg": "^6.0.0",
     "request": "^2.72.0",
+    "sequelize": "^3.23.3",
     "twit": "^2.2.4"
   }
 }
