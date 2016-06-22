@@ -30,3 +30,11 @@ app.use(mount('/archives', serve(__dirname + '/archives')));
 app.listen(3000, () => {
   console.log('listening to http://localhost:3000');
 });
+
+setInterval(async () => {
+  const latest = await Tweet.latest();
+  const tweets = await getTweets(latest && latest.get('id'));
+  await Promise.all(tweets.map(t => Tweet.insert(t)));
+
+  // TODO: update clients automatically
+}, 10000)

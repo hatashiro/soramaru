@@ -33,6 +33,9 @@ const Tweet = sequelize.define('tweet', {
         limit: 20
       })
       .then(tweets => tweets.map(t => JSON.parse(t.get('json'))));
+    },
+    latest() {
+      return this.findOne({order: [['id', 'DESC']]});
     }
   }
 });
