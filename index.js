@@ -34,6 +34,11 @@ app.get('/auth/twitter/callback',
 );
 
 app.get('/session', (req, res) => res.json(req.user));
+app.delete('/session', (req, res) => {
+  const logout = !!req.user;
+  req.logout();
+  res.json({ logout });
+});
 
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);
