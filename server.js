@@ -4,6 +4,7 @@ import appConfig from './config/app';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import twitterStrategy from './strategies/twitter';
+import twitterRoute from './routes/twitter';
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.delete('/session', (req, res) => {
   req.logout();
   res.json({ logout });
 });
+
+app.use('/twitter', twitterRoute);
 
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);
