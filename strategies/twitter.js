@@ -1,23 +1,38 @@
 import passport from 'passport';
 import twitterConfig from '../config/twitter';
 import TwitterStrategy from 'passport-twitter';
+import User from '../models/user';
 
 let user = null;
 
 passport.serializeUser((user, done) => {
-  done(null, 1);
+  done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  done(null, user);
+passport.deserializeUser(async (id, done) => {
+  done(null, await User.findById(id));
 });
+
+function getThumbnail(profile) {
+  if (profile.photos.length === 0) {
+    return null;
+  }
+
+  return profile.photos[0].value;
+}
 
 const twitterStrategy = new TwitterStrategy(
   twitterConfig,
-  (token, tokenSecret, profile, callback) => {
-    // TODO
-    user = {token, tokenSecret, profile};
-    callback(null, user);
+  async (token, tokenSecret, profile, callback) => {
+    const user = await User.insertOrUpdate({
+      id: profile.id,
+      username: profile.username,
+      thumbnail: getThumbnail(profile),
+      token,
+      tokenSecret,
+    });
+
+    callback(null, await User.findById(profile.id));
   }
 );
 

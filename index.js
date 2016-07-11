@@ -22,10 +22,6 @@ app.use(passport.session());
 
 passport.use(twitterStrategy);
 
-app.get('/', (req, res) => {
-  res.send(JSON.stringify(req.user));
-});
-
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
@@ -33,6 +29,8 @@ app.get('/auth/twitter/callback',
     res.redirect('/');
   }
 );
+
+app.get('/session', (req, res) => res.json(req.user));
 
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);

@@ -8,7 +8,8 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "test": "",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "syncdb": "babel-node scripts/syncdb"
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
@@ -17,6 +18,8 @@
     "express-session": "^1.14.0",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
+    "pg": "^6.0.2",
+    "sequelize": "^3.23.4",
     "vue": "^1.0.21"
   },
   "devDependencies": {
