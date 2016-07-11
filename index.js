@@ -10,11 +10,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const RedisStore = require('connect-redis')(session);
+
 app.use(session({
   secret: appConfig.sessionSecret,
   resave: false,
   saveUninitialized: true,
-  cookie: { }
+  store: new RedisStore(),
+  cookie: { maxAge: appConfig.sessionMaxAge }
 }));
 
 app.use(passport.initialize());
