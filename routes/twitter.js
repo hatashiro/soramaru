@@ -23,8 +23,16 @@ const authMiddleware = (req, res, next) => {
 router.use(authMiddleware);
 
 router.get('/lists', async (req, res) => {
-  // TODO: manipulate response data
-  res.json(await req.twit.get('lists/list'));
+  const raw = await req.twit.get('lists/list');
+  res.json(raw.data.map(rawList => {
+    return {
+      id: rawList.id,
+      name: rawList.name,
+      description: rawList.description,
+      uri: `https://twitter.com${rawList.uri}`,
+      fullName: rawList.full_name,
+    };
+  }));
 });
 
 export default router;
