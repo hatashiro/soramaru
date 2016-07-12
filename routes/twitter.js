@@ -28,6 +28,8 @@ router.get('/lists', async (req, res) => {
     return {
       id: rawList.id,
       name: rawList.name,
+      slug: rawList.slug,
+      owner: rawList.user.screen_name,
       description: rawList.description,
       uri: `https://twitter.com${rawList.uri}`,
       fullName: rawList.full_name,
