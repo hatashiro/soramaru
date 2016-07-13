@@ -130,4 +130,11 @@ router.post('/like', route(async (req, res) => {
   res.json(status);
 }));
 
+router.get('/:id', route(async (req, res) => {
+  res.json(await req.twit.get(`statuses/show/${req.params.id}`, {
+    trim_user: false,
+    include_entities: true,
+  }));
+}));
+
 export default router;
