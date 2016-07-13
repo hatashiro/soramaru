@@ -36,6 +36,82 @@ router.get('/lists', route(async (req, res) => {
       fullName: rawList.full_name,
     };
   }));
-});
+}));
+
+function getPhotos(status) {
+  if (!status.entities.media) {
+    return [];
+  }
+  return status.entities.media.filter(media => media.type === 'photo');
+}
+
+function formatStatus(status) {
+  const photos = getPhotos(status);
+  return {
+    id: status.id,
+    user: formatUser(status.user),
+    text: status.text,
+    url: photos[0].url,
+    photos: photos.map(formatPhoto),
+  };
+}
+
+function formatUser(user) {
+  return {
+    id: user.id,
+    name: user.name,
+    screenName: user.screen_name,
+    profileImage: user.profile_image_url,
+  };
+}
+
+function formatPhoto(photo) {
+  return {
+    default: photo.media_url,
+    small: photo.sizes.small ? photo.media_url + ':small' : null,
+    large: photo.sizes.small ? photo.media_url + ':large' : null,
+    thumb: photo.sizes.small ? photo.media_url + ':thumb' : null,
+  };
+}
+
+router.get('/lists/:owner/:slug', route(async (req, res) => {
+  const raw = await req.twit.get('lists/statuses', {
+    slug: req.params.slug,
+    owner_screen_name: req.params.owner,
+    since_id: req.query.from,
+    max_id: req.query.to,
+    count: 50,
+  });
+
+  let rawStatuses = raw.data;
+
+  // exclude 'from' status
+  if (req.query.from) {
+    const fromId = parseInt(req.query.from, 10);
+    rawStatuses = rawStatuses.filter(status => status.id !== fromId);
+  }
+
+  if (rawStatuses.length === 0) {
+    res.json({ from: null, to: null, total: 0, filtered: 0, statuses: [] });
+    return;
+  }
+
+  const statuses = rawStatuses
+    .filter(rawStatus => getPhotos(rawStatus).length > 0)
+    .map(rawStatus => rawStatus.retweeted_status ?
+      Object.assign(formatStatus(rawStatus.retweeted_status), {
+        retweeter: formatUser(rawStatus.user)
+      }) :
+      formatStatus(rawStatus)
+    );
+
+  res.json({
+    from: rawStatuses[rawStatuses.length - 1].id,
+    to: rawStatuses[0].id,
+    total: rawStatuses.length,
+    filtered: statuses.length,
+    statuses
+  });
+}));
 
 export default router;
