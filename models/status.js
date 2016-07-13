@@ -20,7 +20,7 @@ const Status = sequelize.define('status', {
 }, {
   indexes: [
     { fields: ['userId', 'list'] },
-    { fields: ['userId', 'idStr'], unique: true },
+    { fields: ['userId', 'list', 'idStr'], unique: true },
   ]
 });
 
