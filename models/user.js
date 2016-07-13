@@ -37,19 +37,21 @@ User.prototype.listArchives = async function () {
   return raw.map(obj => obj.DISTINCT);
 };
 
-User.prototype.listStatuses = function (list, to) {
+User.prototype.listStatuses = async function (list, to) {
   const where = { userId: this.id, list: list };
 
   if (to) {
     where.id = { $lt: to };
   }
 
-  return Status.findAll({
+  const statuses = await Status.findAll({
     where,
-    include: [{ model: Photo }],
+    include: [{ model: Photo, as: 'photos' }],
     order: 'id DESC',
     limit: 20,
   });
+
+  return statuses.map(status => status.toObj());
 };
 
 User.prototype.hasArchived = async function (list, idStr) {
