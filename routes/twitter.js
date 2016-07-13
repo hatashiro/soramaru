@@ -105,12 +105,12 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
 
 router.post('/like', route(async (req, res) => {
   let raw = await req.twit.post('favorites/create', {
-    id: req.body.tweetId,
+    id: req.body.statusId,
     include_entities: true,
   });
 
   if (raw.data.errors && raw.data.errors[0].code === 139) {
-    raw = await req.twit.get(`statuses/show/${req.body.tweetId}`, {
+    raw = await req.twit.get(`statuses/show/${req.body.statusId}`, {
       trim_user: false,
       include_entities: true,
     });
