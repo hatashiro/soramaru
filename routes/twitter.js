@@ -32,7 +32,7 @@ router.get('/lists', route(async (req, res) => {
       slug: rawList.slug,
       owner: rawList.user.screen_name,
       description: rawList.description,
-      uri: `https://twitter.com${rawList.uri}`,
+      url: `https://twitter.com${rawList.uri}`,
       fullName: rawList.full_name,
     };
   }));
