@@ -115,4 +115,31 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
   });
 }));
 
+router.post('/like', route(async (req, res) => {
+  let raw = await req.twit.post('favorites/create', {
+    id: req.body.tweetId,
+    include_entities: true,
+  });
+
+  if (raw.data.errors && raw.data.errors[0].code === 139) {
+    raw = await req.twit.get(`statuses/show/${req.body.tweetId}`, {
+      trim_user: false,
+      include_entities: true,
+    });
+  }
+
+  const status = formatStatus(raw.data);
+
+  const list = `${req.body.owner}/${req.body.slug}`;
+  try {
+    await req.user.saveStatus(list, status);
+  } catch (err) {
+    if (err.name !== 'SequelizeUniqueConstraintError') {
+      throw err;
+    }
+  }
+
+  res.json(status);
+}));
+
 export default router;
