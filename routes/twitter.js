@@ -106,6 +106,10 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
       formatStatus(rawStatus)
     );
 
+  await Promise.all(statuses.map(async status =>
+    Object.assign(status, {archived: await req.user.hasArchived(status.idStr)})
+  ));
+
   res.json({
     from: rawStatuses[rawStatuses.length - 1].id_str,
     to: rawStatuses[0].id_str,

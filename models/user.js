@@ -44,4 +44,11 @@ User.prototype.listStatuses = function (list, to) {
   });
 };
 
+User.prototype.hasArchived = async function (idStr) {
+  const status = await Status.findOne({
+    where: { userId: this.id, idStr }
+  });
+  return !!status;
+};
+
 export default User;
