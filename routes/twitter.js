@@ -53,6 +53,7 @@ function formatStatus(status) {
     text: status.text,
     url: photos[0].url,
     photos: photos.map(formatPhoto),
+    favorited: status.favorited,
   };
 }
 
