@@ -1,3 +1,4 @@
+import route from './async-route';
 import Twit from 'twit';
 import twitterConfig from '../config/twitter';
 import { Router } from 'express';
@@ -22,7 +23,7 @@ const authMiddleware = (req, res, next) => {
 
 router.use(authMiddleware);
 
-router.get('/lists', async (req, res) => {
+router.get('/lists', route(async (req, res) => {
   const raw = await req.twit.get('lists/list');
   res.json(raw.data.map(rawList => {
     return {
