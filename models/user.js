@@ -29,6 +29,14 @@ User.prototype.saveStatus = async function (list, obj) {
   return Promise.all(obj.photos.map(photo => Photo.save(status, photo)));
 };
 
+User.prototype.listArchives = async function () {
+  const raw = await Status.aggregate('list', 'DISTINCT', {
+    plain: false,
+    where: { userId: this.id },
+  });
+  return raw.map(obj => obj.DISTINCT);
+};
+
 User.prototype.listStatuses = function (list, to) {
   const where = { userId: this.id, list: list };
 

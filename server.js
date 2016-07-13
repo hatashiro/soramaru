@@ -5,6 +5,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import twitterStrategy from './strategies/twitter';
 import twitterRoute from './routes/twitter';
+import archivesRoute from './routes/archives';
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.delete('/session', (req, res) => {
 });
 
 app.use('/twitter', twitterRoute);
+app.use('/archives', archivesRoute);
 
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);
