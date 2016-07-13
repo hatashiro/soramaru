@@ -1,13 +1,14 @@
-import {BIGINT, INTEGER, STRING} from 'sequelize';
+import {INTEGER, STRING} from 'sequelize';
 import sequelize from './';
 import Photo from './photo';
 
 const Status = sequelize.define('status', {
   /* management */
+  id: {type: INTEGER, primaryKey: true, autoIncrement: true},
   list: {type: STRING},
 
   /* status */
-  id: {type: BIGINT, primaryKey: true},
+  idStr: {type: STRING},
   text: {type: STRING},
   url: {type: STRING},
 
@@ -16,13 +17,18 @@ const Status = sequelize.define('status', {
   uploaderName: {type: STRING},
   uploaderScreenName: {type: STRING},
   uploaderProfileImage: {type: STRING},
+}, {}, {
+  indexes: [
+    { fields: ['userId', 'list'] },
+    { fields: ['userId', 'idStr'], unique: true },
+  ]
 });
 
 Status.hasMany(Photo, {as: 'photos'});
 
 Status.prototype.toObj = function () {
   return {
-    id: this.id,
+    idStr: this.idStr,
     text: this.text,
     url: this.url,
     user: {

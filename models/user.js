@@ -13,11 +13,11 @@ const User = sequelize.define('user', {
 
 User.hasMany(Status, {as: 'statuses'});
 
-User.prototype.saveStatus = async (list, obj) => {
+User.prototype.saveStatus = async function (list, obj) {
   const status = await Status.create({
     userId: this.id,
     list: list,
-    id: obj.id,
+    idStr: obj.idStr,
     text: obj.text,
     url: obj.url,
     uploaderId: obj.user.id,
@@ -29,7 +29,7 @@ User.prototype.saveStatus = async (list, obj) => {
   return Promise.all(obj.photos.map(photo => Photo.save(status, photo)));
 };
 
-User.prototype.listStatuses = (list, to) => {
+User.prototype.listStatuses = function (list, to) {
   const where = { userId: this.id, list: list };
 
   if (to) {
