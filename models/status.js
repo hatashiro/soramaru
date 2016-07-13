@@ -17,7 +17,7 @@ const Status = sequelize.define('status', {
   uploaderName: {type: STRING},
   uploaderScreenName: {type: STRING},
   uploaderProfileImage: {type: STRING},
-}, {}, {
+}, {
   indexes: [
     { fields: ['userId', 'list'] },
     { fields: ['userId', 'idStr'], unique: true },
