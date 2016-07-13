@@ -47,11 +47,12 @@ function getPhotos(status) {
 
 function formatStatus(status) {
   const photos = getPhotos(status);
+  const user = formatUser(status.user);
   return {
-    id: status.id,
-    user: formatUser(status.user),
+    idStr: status.id_str,
+    user,
     text: status.text,
-    url: photos[0].url,
+    url: `https://twitter.com/${user.screenName}/status/${status.id_str}`,
     photos: photos.map(formatPhoto),
     favorited: status.favorited,
   };
@@ -88,8 +89,7 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
 
   // exclude 'from' status
   if (req.query.from) {
-    const fromId = parseInt(req.query.from, 10);
-    rawStatuses = rawStatuses.filter(status => status.id !== fromId);
+    rawStatuses = rawStatuses.filter(status => status.id_str !== req.query.from);
   }
 
   if (rawStatuses.length === 0) {
@@ -107,8 +107,8 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
     );
 
   res.json({
-    from: rawStatuses[rawStatuses.length - 1].id,
-    to: rawStatuses[0].id,
+    from: rawStatuses[rawStatuses.length - 1].id_str,
+    to: rawStatuses[0].id_str,
     total: rawStatuses.length,
     filtered: statuses.length,
     statuses
