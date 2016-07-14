@@ -47,6 +47,10 @@ app.use('/archives', archivesRoute);
 
 app.use(`/${appConfig.archiveDir}`, express.static(appConfig.archiveDir));
 
+if (process.env.NODE_ENV !== 'production') {
+  require('./build/dev-server')(app);
+}
+
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);
 });
