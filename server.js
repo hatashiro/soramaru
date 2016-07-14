@@ -45,6 +45,8 @@ app.delete('/session', (req, res) => {
 app.use('/twitter', twitterRoute);
 app.use('/archives', archivesRoute);
 
+app.use(`/${appConfig.archiveDir}`, express.static(appConfig.archiveDir));
+
 app.listen(appConfig.port, () => {
   console.log(`listening to http://localhost:${appConfig.port}`);
 });
