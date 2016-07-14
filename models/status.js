@@ -1,4 +1,4 @@
-import {INTEGER, STRING} from 'sequelize';
+import {INTEGER, BIGINT, STRING} from 'sequelize';
 import sequelize from './';
 import Photo from './photo';
 
@@ -13,7 +13,7 @@ const Status = sequelize.define('status', {
   url: {type: STRING},
 
   /* user */
-  uploaderId: {type: INTEGER},
+  uploaderId: {type: BIGINT},
   uploaderName: {type: STRING},
   uploaderScreenName: {type: STRING},
   uploaderProfileImage: {type: STRING},

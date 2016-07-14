@@ -1,10 +1,10 @@
-import {INTEGER, STRING} from 'sequelize';
+import {BIGINT, STRING} from 'sequelize';
 import sequelize from './';
 import Status from './status';
 import Photo from './photo';
 
 const User = sequelize.define('user', {
-  id: {type: INTEGER, primaryKey: true},
+  id: {type: BIGINT, primaryKey: true},
   username: {type: STRING},
   thumbnail: {type: STRING},
   token: {type: STRING},
