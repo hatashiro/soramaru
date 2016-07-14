@@ -14,6 +14,11 @@ router.get('/:owner/:slug', route(async (req, res) => {
   const list = `${req.params.owner}/${req.params.slug}`;
   const statuses = await req.user.listStatuses(list, req.query.to);
 
+  if (statuses.length === 0) {
+    res.json({ from: null, to: null, total: 0, filtered: 0, statuses: [] });
+    return;
+  }
+
   res.json({
     from: statuses[statuses.length - 1].idStr,
     to: statuses[0].idStr,
