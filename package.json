@@ -23,7 +23,8 @@
     "request": "^2.73.0",
     "sequelize": "^4.0.0-0",
     "twit": "^2.2.4",
-    "vue": "^1.0.21"
+    "vue": "^1.0.21",
+    "vue-router": "^0.7.13"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
