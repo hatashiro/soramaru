@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import store, { getters } from './store';
+import store, { getters } from '../store';
 import UserButton from './UserButton.vue';
 
 export default {
