@@ -5,7 +5,7 @@ import App from './App';
 Vue.use(VueRouter);
 
 const Main = Vue.extend({});
-const router = new VueRouter();
+const router = new VueRouter({ history: true });
 
 router.map({
   '/': { component: App },
