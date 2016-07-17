@@ -19,7 +19,7 @@ export default {
       }
       throw res;
     }
-    this.login = this.json();
+    this.login = res.json();
   },
 };
 </script>
