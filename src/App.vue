@@ -2,12 +2,9 @@
 </template>
 
 <script>
+import store from './store';
+
 export default {
-  data() {
-    return {
-      login: null,
-    };
-  },
   async created() {
     let res;
     try {
@@ -19,8 +16,19 @@ export default {
       }
       throw res;
     }
-    this.login = res.json();
+    this.setUser(res.json());
   },
+  store,
+  vuex: {
+    actions: {
+      setUser({ dispatch }, user) {
+        dispatch('SET_USER', user);
+      }
+    },
+    getters: {
+      user: state => state.user
+    }
+  }
 };
 </script>
 
