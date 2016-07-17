@@ -1,4 +1,6 @@
-import sequelize from '../models/';
+require('babel-core/register');
+
+const sequelize = require('../models/').default;
 
 require('../models/user');
 require('../models/status');
