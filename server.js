@@ -35,7 +35,13 @@ app.get('/auth/twitter/callback',
   }
 );
 
-app.get('/session', (req, res) => res.json(req.user));
+app.get('/session', (req, res) => {
+  if (!req.user) {
+    res.status(401).send();
+    return;
+  }
+  res.json(req.user);
+});
 app.delete('/session', (req, res) => {
   const logout = !!req.user;
   req.logout();
