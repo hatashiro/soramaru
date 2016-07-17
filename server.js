@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import twitterStrategy from './strategies/twitter';
 import twitterRoute from './routes/twitter';
 import archivesRoute from './routes/archives';
+import { pick } from 'lodash';
 
 const app = express();
 
@@ -40,7 +41,7 @@ app.get('/session', (req, res) => {
     res.status(401).send();
     return;
   }
-  res.json(req.user);
+  res.json(pick(req.user, ['id', 'username', 'thumbnail']));
 });
 app.delete('/session', (req, res) => {
   const logout = !!req.user;
