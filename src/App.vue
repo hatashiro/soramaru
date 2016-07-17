@@ -1,10 +1,17 @@
 <template>
+  <template v-if='user'>
+    <user-button></user-button>
+  </template>
 </template>
 
 <script>
-import store from './store';
+import store, { getters } from './store';
+import UserButton from './UserButton.vue';
 
 export default {
+  components: {
+    UserButton,
+  },
   async created() {
     let res;
     try {
@@ -20,14 +27,12 @@ export default {
   },
   store,
   vuex: {
+    getters,
     actions: {
       setUser({ dispatch }, user) {
         dispatch('SET_USER', user);
       }
     },
-    getters: {
-      user: state => state.user
-    }
   }
 };
 </script>

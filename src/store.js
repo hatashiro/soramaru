@@ -16,6 +16,10 @@ const mutations = {
   },
 };
 
+export const getters = {
+  user: state => state.user,
+};
+
 export default new Vuex.Store({
   state,
   mutations,
