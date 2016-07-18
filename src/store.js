@@ -14,10 +14,9 @@ const mutations = {
   LOGOUT(state) {
     state.user = null;
   },
-};
-
-export const getters = {
-  user: state => state.user,
+  TOGGLE_MENU(state) {
+    state.menuOpen = !state.menuOpen;
+  },
 };
 
 export default new Vuex.Store({

@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import { getters } from '../store';
+import { user } from '../vuex/getters';
 
 export default {
   vuex: {
-    getters,
+    getters: { user },
   }
 };
 </script>

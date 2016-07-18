@@ -5,8 +5,10 @@
 </template>
 
 <script>
-import store, { getters } from '../store';
+import store from '../store';
 import UserButton from './UserButton.vue';
+import { user } from '../vuex/getters';
+import { setUser } from '../vuex/actions';
 
 export default {
   components: {
@@ -27,12 +29,8 @@ export default {
   },
   store,
   vuex: {
-    getters,
-    actions: {
-      setUser({ dispatch }, user) {
-        dispatch('SET_USER', user);
-      }
-    },
+    getters: { user },
+    actions: { setUser },
   }
 };
 </script>
