@@ -1,15 +1,17 @@
 <template>
-  <div class='user-button'>
+  <div class='user-button' @click='toggleMenu'>
     <img :src='user.thumbnail'>
   </div>
 </template>
 
 <script>
 import { user } from '../vuex/getters';
+import { toggleMenu } from '../vuex/actions';
 
 export default {
   vuex: {
     getters: { user },
+    actions: { toggleMenu },
   }
 };
 </script>

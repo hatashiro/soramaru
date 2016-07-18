@@ -4,7 +4,10 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-  user: null
+  user: null,
+  menuOpen: false,
+  lists: [],
+  archives: [],
 };
 
 const mutations = {
@@ -16,6 +19,15 @@ const mutations = {
   },
   TOGGLE_MENU(state) {
     state.menuOpen = !state.menuOpen;
+  },
+  CLOSE_MENU(state) {
+    state.menuOpen = false;
+  },
+  SET_LISTS(state, lists) {
+    state.lists = lists;
+  },
+  SET_ARCHIVES(state, archives) {
+    state.archives = archives;
   },
 };
 
