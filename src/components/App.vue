@@ -14,7 +14,7 @@ import store from '../store';
 import UserButton from './UserButton.vue';
 import RightMenu from './RightMenu.vue';
 import { user, menuOpen } from '../vuex/getters';
-import { setUser, toggleMenu } from '../vuex/actions';
+import { setUser, toggleMenu, closeMenu } from '../vuex/actions';
 
 export default {
   components: {
@@ -37,8 +37,13 @@ export default {
   store,
   vuex: {
     getters: { user, menuOpen },
-    actions: { setUser, toggleMenu },
-  }
+    actions: { setUser, toggleMenu, closeMenu },
+  },
+  route: {
+    data() {
+      this.closeMenu();
+    },
+  },
 };
 </script>
 
