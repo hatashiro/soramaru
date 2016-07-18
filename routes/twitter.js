@@ -6,9 +6,26 @@ const router = Router();
 
 router.use(authMiddleware);
 
+function rateLimitExceeded(raw) {
+  return raw.data.errors &&
+         raw.data.errors.some(err => err.code === 88);
+}
+
 router.get('/lists', route(async (req, res) => {
-  const raw = await req.twit.get('lists/list');
-  res.json(raw.data.map(rawList => {
+  let listsCache = req.session.listsCache;
+
+  if (!listsCache || Date.now() - listsCache.timestamp > 60 * 1000) {
+    const raw = await req.twit.get('lists/list');
+
+    if (rateLimitExceeded(raw) && !listsCache) {
+      res.status(429).send('too many requests');
+      return;
+    }
+
+    listsCache = req.session.listsCache = { timestamp: Date.now(), data: raw.data };
+  }
+
+  res.json(listsCache.data.map(rawList => {
     return {
       id: rawList.id,
       name: rawList.name,
@@ -68,6 +85,11 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
     count: 50,
   });
 
+  if (rateLimitExceeded(raw)) {
+    res.status(429).send('too many requests');
+    return;
+  }
+
   let rawStatuses = raw.data;
 
   // exclude 'from' status
@@ -109,11 +131,21 @@ router.post('/like', route(async (req, res) => {
     include_entities: true,
   });
 
+  if (rateLimitExceeded(raw)) {
+    res.status(429).send('too many requests');
+    return;
+  }
+
   if (raw.data.errors && raw.data.errors[0].code === 139) {
     raw = await req.twit.get(`statuses/show/${req.body.statusId}`, {
       trim_user: false,
       include_entities: true,
     });
+
+    if (rateLimitExceeded(raw)) {
+      res.status(429).send('too many requests');
+      return;
+    }
   }
 
   const status = formatStatus(raw.data);
