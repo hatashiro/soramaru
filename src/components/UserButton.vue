@@ -25,11 +25,11 @@ export default {
   overflow: hidden;
   border: 1px solid #ddd;
   cursor: pointer;
-}
 
-.user-button img {
-  width: 100%;
-  height: 100%;
-  display: block;
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 }
 </style>
