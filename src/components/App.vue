@@ -36,4 +36,17 @@ export default {
 </script>
 
 <style>
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
 </style>
