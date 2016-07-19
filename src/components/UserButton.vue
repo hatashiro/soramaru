@@ -1,16 +1,16 @@
 <template>
-  <div class='user-button' @click='toggleMenu'>
+  <div class='user-button' @click='toggleMenu' :class="{ 'menu-open': menuOpen }">
     <img :src='user.thumbnail'>
   </div>
 </template>
 
 <script>
-import { user } from '../vuex/getters';
+import { user, menuOpen } from '../vuex/getters';
 import { toggleMenu } from '../vuex/actions';
 
 export default {
   vuex: {
-    getters: { user },
+    getters: { user, menuOpen },
     actions: { toggleMenu },
   }
 };
@@ -27,6 +27,12 @@ export default {
   overflow: hidden;
   border: 1px solid #ddd;
   cursor: pointer;
+  transition: transform .3s ease-in-out;
+  z-index: 2;
+
+  &.menu-open {
+    transform: translateX(-256px);
+  }
 
   img {
     width: 100%;

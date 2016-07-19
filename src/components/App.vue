@@ -2,9 +2,9 @@
   <template v-if='user'>
     <main id='main' :class="{ 'menu-open': menuOpen }">
       <router-view></router-view>
-      <user-button></user-button>
-      <div class='main-wrapper' v-if='menuOpen' @click='toggleMenu' transition='fade-in'></div>
     </main>
+    <div class='main-wrapper' v-if='menuOpen' @click='toggleMenu' transition='fade-in'></div>
+    <user-button></user-button>
     <right-menu></right-menu>
   </template>
 </template>
@@ -82,22 +82,24 @@ a, a:visited {
     transform: translateX(-256px);
     overflow: hidden;
   }
+}
 
-  .main-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    opacity: 0.3;
+.main-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 3;
 
-    &.fade-in-transition {
-      transition: opacity .3s ease-in-out;
-    }
-    &.fade-in-enter, &.fade-in-leave {
-      opacity: 0;
-    }
+  &.fade-in-transition {
+    transition: transform .3s ease-in-out, opacity .3s ease-in-out;
+    opacity: 0.4;
+    transform: translateX(-256px);
+  }
+  &.fade-in-enter, &.fade-in-leave {
+    opacity: 0;
   }
 }
 </style>
