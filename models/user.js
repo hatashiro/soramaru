@@ -20,6 +20,7 @@ User.prototype.saveStatus = async function (list, obj) {
     idStr: obj.idStr,
     text: obj.text,
     url: obj.url,
+    datetime: obj.datetime,
     uploaderId: obj.user.id,
     uploaderName: obj.user.name,
     uploaderScreenName: obj.user.screenName,

@@ -55,6 +55,7 @@ function formatStatus(status) {
     url: `https://twitter.com/${user.screenName}/status/${status.id_str}`,
     photos: photos.map(formatPhoto),
     favorited: status.favorited,
+    datetime: status.created_at,
   };
 }
 

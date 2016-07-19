@@ -11,6 +11,7 @@ const Status = sequelize.define('status', {
   idStr: {type: STRING},
   text: {type: STRING},
   url: {type: STRING},
+  datetime: {type: STRING},
 
   /* user */
   uploaderId: {type: BIGINT},
@@ -31,6 +32,7 @@ Status.prototype.toObj = function () {
     idStr: this.idStr,
     text: this.text,
     url: this.url,
+    datetime: this.datetime,
     user: {
       id: this.uploaderId,
       name: this.uploaderName,
