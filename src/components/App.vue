@@ -61,6 +61,7 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  color: #444;
 }
 
 a, a:visited {
@@ -71,9 +72,11 @@ a, a:visited {
   position: relative;
   z-index: 1;
   transition: transform .3s ease-in-out;
-  background-color: white;
+  background-color: #fafafa;
   min-height: 100%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  padding: 10px;
 
   &.menu-open {
     transform: translateX(-256px);
