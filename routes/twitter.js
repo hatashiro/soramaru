@@ -11,6 +11,11 @@ function rateLimitExceeded(raw) {
          raw.data.errors.some(err => err.code === 88);
 }
 
+function notExist(raw) {
+  return raw.data.errors &&
+         raw.data.errors.some(err => err.code === 34);
+}
+
 router.get('/lists', route(async (req, res) => {
   let listsCache = req.session.listsCache;
 
@@ -88,6 +93,11 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
 
   if (rateLimitExceeded(raw)) {
     res.status(429).send('too many requests');
+    return;
+  }
+
+  if (notExist(raw)) {
+    res.status(404).send('does not exist');
     return;
   }
 
