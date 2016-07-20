@@ -59,5 +59,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.listen(appConfig.port, () => {
-  console.log(`listening to http://localhost:${appConfig.port}`);
+  console.log(`listening to http://127.0.0.1:${appConfig.port}`);
 });
