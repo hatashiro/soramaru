@@ -213,6 +213,10 @@ export default {
       width: 30px;
       text-align: center;
     }
+
+    i.fa-heart {
+      color: #ffa2ba;
+    }
   }
 }
 </style>
