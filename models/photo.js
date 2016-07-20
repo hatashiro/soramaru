@@ -18,10 +18,10 @@ async function savePhoto(url, basename) {
   }
 
   const ext = path.extname(url).split(':')[0];
-  const archivePath = `${appConfig.archiveDir}/${basename}${ext}`;
-  await download(url, archivePath);
+  const fileName = basename + ext;
+  await download(url, path.join(appConfig.archiveDir, fileName));
 
-  return archivePath;
+  return fileName;
 }
 
 Photo.save = async (status, obj) => {
@@ -37,10 +37,10 @@ Photo.save = async (status, obj) => {
 
 Photo.prototype.toObj = function () {
   return {
-    default: this.default,
-    small: this.small,
-    large: this.large,
-    thumb: this.thumb,
+    default: `${appConfig.archiveURI}/${this.default}`,
+    small: `${appConfig.archiveURI}/${this.small}`,
+    large: `${appConfig.archiveURI}/${this.large}`,
+    thumb: `${appConfig.archiveURI}/${this.thumb}`,
   };
 };
 

@@ -52,7 +52,7 @@ app.delete('/session', (req, res) => {
 app.use('/twitter', twitterRoute);
 app.use('/archives', archivesRoute);
 
-app.use(`/${appConfig.archiveDir}`, express.static(appConfig.archiveDir));
+app.use(appConfig.archiveURI, express.static(appConfig.archiveDir));
 
 if (process.env.NODE_ENV !== 'production') {
   require('./build/dev-server')(app);
