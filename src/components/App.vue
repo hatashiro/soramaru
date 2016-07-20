@@ -62,6 +62,7 @@ body {
   padding: 0;
   margin: 0;
   color: #444;
+  background-color: #f5f8fa;
 }
 
 a, a:visited {
@@ -72,7 +73,7 @@ a, a:visited {
   position: relative;
   z-index: 1;
   transition: transform .3s ease-in-out;
-  background-color: #fafafa;
+  background-color: #f5f8fa;
   min-height: 100%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
@@ -100,6 +101,7 @@ a, a:visited {
   }
   &.fade-in-enter, &.fade-in-leave {
     opacity: 0;
+    transform: translateX(0);
   }
 }
 </style>
