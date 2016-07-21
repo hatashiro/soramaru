@@ -1,5 +1,5 @@
 <template>
-  <div id='menu' class='menu'>
+  <div v-show='menuOpen' id='menu' class='menu' transition='menu'>
     <div class='section'>
       <h3>Lists</h3>
       <ul v-if='lists.length > 0'>
@@ -30,6 +30,7 @@
 <script>
 import { lists, archives } from '../vuex/getters';
 import { logout, loadLists, loadArchives, closeMenu } from '../vuex/actions';
+import { menuOpen } from '../vuex/getters';
 
 export default {
   data() {
@@ -77,7 +78,7 @@ export default {
     },
   },
   vuex: {
-    getters: { lists, archives },
+    getters: { lists, archives, menuOpen },
     actions: { logout, loadLists, loadArchives, closeMenu },
   },
 };
@@ -125,6 +126,14 @@ export default {
       height: 18px;
       font-size: 13px;
     }
+  }
+
+  &.menu-transition {
+    transition: opacity .3s ease-in-out;
+    opacity: 1;
+  }
+  &.menu-enter, &.menu-leave {
+    opacity: 0;
   }
 }
 
