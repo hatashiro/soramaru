@@ -7,7 +7,35 @@ const router = Router();
 router.use(authMiddleware);
 
 router.get('/', route(async (req, res) => {
-  res.json(await req.user.listArchives());
+  const archives = await req.user.listArchives();
+
+  let listsCache = req.session.listsCache;
+
+  if (!listsCache) {
+    res.json(archives.map(archive => {
+      const [owner, slug] = archive.split('/');
+      return { owner, slug, name: slug };
+    }));
+    return;
+  }
+
+  const lists = listsCache.data.reduce((lists, rawList) => {
+    lists[`${rawList.user.screen_name}/${rawList.slug}`] = {
+      owner: rawList.user.screen_name,
+      slug: rawList.slug,
+      name: rawList.name,
+    };
+    return lists;
+  }, {});
+
+  res.json(archives.map(archive => {
+    if (lists[archive]) {
+      return lists[archive];
+    }
+
+    const [owner, slug] = archive.split('/');
+    return { owner, slug, name: slug };
+  }));
 }));
 
 router.get('/:owner/:slug', route(async (req, res) => {

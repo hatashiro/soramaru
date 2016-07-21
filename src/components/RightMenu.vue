@@ -4,7 +4,7 @@
       <h3>Lists</h3>
       <ul v-if='lists.length > 0'>
         <li v-for='list in lists'>
-          <a v-link="listLink(list)" @click='closeMenu'>{{ list.owner }}/{{ list.slug }}</a>
+          <a v-link="listLink(list)" @click='closeMenu'>{{ list.owner }}/{{ list.name }}</a>
         </li>
       </ul>
       <ul v-else><li>none</li></ul>
@@ -16,7 +16,7 @@
       <h3>Archives</h3>
       <ul v-if='archives.length > 0'>
         <li v-for='archive in archives'>
-          <a v-link="archiveLink(archive)" @click='closeMenu'>{{ archive }}</a>
+          <a v-link="archiveLink(archive)" @click='closeMenu'>{{ archive.owner }}/{{ archive.name }}</a>
         </li>
       </ul>
       <ul v-else><li>none</li></ul>
@@ -51,12 +51,11 @@ export default {
       };
     },
     archiveLink(archive) {
-      const tokens = archive.split('/');
       return {
         name: 'archive',
         params: {
-          owner: tokens[0],
-          slug: tokens[1],
+          owner: archive.owner,
+          slug: archive.slug,
         },
       };
     },
