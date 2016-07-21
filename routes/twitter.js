@@ -103,9 +103,14 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
 
   let rawStatuses = raw.data;
 
-  // exclude 'from' status
-  if (req.query.from) {
-    rawStatuses = rawStatuses.filter(status => status.id_str !== req.query.from);
+  // exclude 'to' and 'from' status
+  if (req.query.from && rawStatuses[rawStatuses.length - 1] &&
+      rawStatuses[rawStatuses.length - 1].id_str === req.query.from) {
+    rawStatuses.pop();
+  }
+  if (req.query.to && rawStatuses[0] &&
+      rawStatuses[0].id_str === req.query.to) {
+    rawStatuses.shift();
   }
 
   if (rawStatuses.length === 0) {
