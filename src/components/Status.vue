@@ -22,7 +22,7 @@
     </div>
     <div class='photos'>
       <a v-for='photo in photos' class='photo' :href='photo.large'>
-        <img :src='photo.small'>
+        <responsive-image :default='photo.default' :small='photo.small'></responsive-image>
       </a>
     </div>
     <div class='text'>{{ text }}</div>
@@ -35,10 +35,12 @@
 
 <script>
 import moment from 'moment';
+import ResponsiveImage from './ResponsiveImage.vue';
 import { loadArchives } from '../vuex/actions';
 
 export default {
   props: ['status'],
+  components: { ResponsiveImage },
   data() {
     return this.status;
   },
@@ -181,10 +183,6 @@ export default {
     a.photo {
       display: block;
       border-bottom: 1px solid #e1e8ed;
-      img {
-        width: 100%;
-        display: block;
-      }
     }
   }
 
