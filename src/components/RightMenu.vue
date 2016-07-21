@@ -129,10 +129,13 @@ export default {
 }
 
 #logout {
+  cursor: pointer;
   color: #0074D9;
   text-transform: uppercase;
   font-size: 13px;
   margin: 0;
   padding: 0;
+  border: none;
+  background: none;
 }
 </style>

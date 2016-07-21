@@ -131,7 +131,9 @@ export default {
 
 <style scoped>
 .statuses {
+  max-width: 400px;
   overflow-x: hidden;
+  margin: 0 auto;
 }
 .loading {
   .spinner {
