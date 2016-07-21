@@ -1,5 +1,5 @@
 <template>
-  <status-list :uri='uri'></status-list>
+  <status-list :uri='uri' is-list></status-list>
 </template>
 
 <script>

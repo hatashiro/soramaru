@@ -1,7 +1,10 @@
 <template>
+  <div v-if='recentStatuses.length > 0' class='recent' @click='showRecent'>
+    View {{ recentStatuses.length }} new status<span v-if='recentStatuses.length > 1'>es</span>
+  </div>
   <div v-if='error' class='error'>{{ error }}</div>
   <div v-else class='statuses'>
-    <status v-for='status in statuses' :status='status' track-by='$index'></status>
+    <status v-for='status in statuses' :status='status' track-by='idStr'></status>
   </div>
   <div v-if='loading' class='loading'>
     <div class="spinner">
@@ -18,10 +21,14 @@ import InfiniteScrollMixin from '../mixins/infinite-scroll';
 
 export default {
   mixins: [InfiniteScrollMixin],
-  props: ['uri'],
+  props: {
+    uri: String,
+    isList: { type: Boolean, default: false },
+  },
   components: { Status },
   data() {
     return {
+      recentStatuses: [],
       statuses: [],
       from: null,
       to: null,
@@ -38,9 +45,18 @@ export default {
       }
       this.loadMoreStatuses();
     });
+    if (this.isList) {
+      if (this.loadRecentInterval) {
+        clearInterval(this.loadRecentInterval);
+      }
+      this.loadRecentInterval = setInterval(() => this.loadRecent(), 20000);
+    }
   },
   beforeDestroy() {
     this.disableInfiniteScroll();
+    if (this.loadRecentInterval) {
+      clearInterval(this.loadRecentInterval);
+    }
   },
   watch: {
     'uri': function (uri) {
@@ -86,21 +102,28 @@ export default {
     async loadMoreStatuses() {
       this.loading = true;
 
-      let res;
-      try {
-        res = await this.$http.get(this.uri, { params: { to: this.from } });
-      } catch (res) {
-        if (res.status === 404) {
-          this.error = res.body;
-          return;
-        }
-        throw res;
-      }
-
+      const res = await this.$http.get(this.uri, { params: { to: this.from } });
       const data = res.json();
       this.from = data.from;
       this.statuses = this.statuses.concat(data.statuses);
+
       this.afterLoaded(data);
+    },
+    async loadRecent() {
+      const res = await this.$http.get(this.uri, { params: { from: this.to } });
+      const data = res.json();
+      if (data.total === 0) {
+        return;
+      }
+      this.to = data.to;
+      if (data.filtered === 0) {
+        return;
+      }
+      this.recentStatuses = data.statuses.concat(this.recentStatuses);
+    },
+    showRecent() {
+      this.statuses = this.recentStatuses.concat(this.statuses);
+      this.recentStatuses = [];
     },
   },
 };
@@ -138,5 +161,12 @@ export default {
   } 40% {
     transform: scale(1.0);
   }
+}
+.recent {
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  padding: 10px 0;
 }
 </style>
