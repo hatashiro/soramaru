@@ -141,7 +141,7 @@ export default {
 
 <style scoped>
 .statuses {
-  max-width: 400px;
+  max-width: 435px;
   overflow-x: hidden;
   margin: 0 auto;
 }

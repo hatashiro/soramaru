@@ -200,6 +200,7 @@ export default {
     justify-content: space-around;
 
     a.function {
+      cursor: pointer;
       font-size: 20px;
       color: #888;
       &:visited {
