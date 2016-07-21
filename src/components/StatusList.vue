@@ -102,7 +102,17 @@ export default {
     async loadMoreStatuses() {
       this.loading = true;
 
-      const res = await this.$http.get(this.uri, { params: { to: this.from } });
+      let res;
+      try {
+        res = await this.$http.get(this.uri, { params: { to: this.from } });
+      } catch (res) {
+        if (res.status === 404) {
+          this.error = res.body;
+          return;
+        }
+        this.loading = false;
+        throw res;
+      }
       const data = res.json();
       this.from = data.from;
       this.statuses = this.statuses.concat(data.statuses);
