@@ -44,10 +44,11 @@ router.get('/lists', route(async (req, res) => {
 }));
 
 function getPhotos(status) {
-  if (!status.entities.media) {
+  const entities = status.extended_entities ? status.extended_entities : status.entities;
+  if (!entities.media) {
     return [];
   }
-  return status.entities.media.filter(media => media.type === 'photo');
+  return entities.media.filter(media => media.type === 'photo');
 }
 
 function formatStatus(status) {
