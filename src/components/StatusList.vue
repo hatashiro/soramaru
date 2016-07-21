@@ -120,6 +120,10 @@ export default {
       this.afterLoaded(data);
     },
     async loadRecent() {
+      if (!this.to) {
+        return;
+      }
+
       const res = await this.$http.get(this.uri, { params: { from: this.to } });
       const data = res.json();
       if (data.total === 0) {
