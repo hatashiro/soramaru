@@ -42,7 +42,7 @@ User.prototype.listStatuses = async function (list, to) {
   const where = { userId: this.id, list: list };
 
   if (to) {
-    where.id = { $lt: to };
+    where.idStr = { $lt: to };
   }
 
   const statuses = await Status.findAll({
