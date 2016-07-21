@@ -48,7 +48,7 @@ User.prototype.listStatuses = async function (list, to) {
   const statuses = await Status.findAll({
     where,
     include: [{ model: Photo, as: 'photos' }],
-    order: 'id DESC',
+    order: '"idStr" DESC',
     limit: 20,
   });
 
