@@ -57,7 +57,9 @@ app.use(appConfig.archiveURI, express.static(appConfig.archiveDir));
 if (process.env.NODE_ENV !== 'production') {
   require('./build/dev-server')(app);
 } else {
-  app.use(express.static(require('./config').build.assetsRoot));
+  const dist = require('./config').build.assetsRoot;
+  app.use(express.static(dist));
+  app.use((req, res) => res.sendFile('index.html', { root: dist }));
 }
 
 app.listen(appConfig.port, () => {
