@@ -9,7 +9,6 @@ test/e2e/reports
 # app configs
 /config/app.js
 /config/twitter.js
-/config/db.js
 
 # archives
 /photos
