@@ -5,7 +5,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import twitterStrategy from './strategies/twitter';
 import twitterRoute from './routes/twitter';
-import archivesRoute from './routes/archives';
+import { client as redisClient} from './lib/redis';
 import { pick } from 'lodash';
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(session({
   secret: appConfig.sessionSecret,
   resave: false,
   saveUninitialized: true,
-  store: new RedisStore(),
+  store: new RedisStore({ client: redisClient }),
   cookie: { maxAge: appConfig.sessionMaxAge }
 }));
 
@@ -50,7 +50,6 @@ app.delete('/session', (req, res) => {
 });
 
 app.use('/twitter', twitterRoute);
-app.use('/archives', archivesRoute);
 
 app.use(appConfig.archiveURI, express.static(appConfig.archiveDir));
 

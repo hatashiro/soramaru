@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import App from './components/App';
-import Archive from './components/Archive.vue';
 import Index from './components/Index.vue';
 import List from './components/List.vue';
 import Login from './components/Login.vue';
@@ -19,7 +18,6 @@ router.map({
     subRoutes: {
       '/': { component: Index },
       '/list/:owner/:slug': { name: 'list', component: List },
-      '/archive/:owner/:slug': { name: 'archive', component: Archive },
     },
   },
   '/login': { component: Login },

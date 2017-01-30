@@ -27,7 +27,7 @@
     </div>
     <div class='text'>{{ text }}</div>
     <div class='functions'>
-      <a v-if='needLike' class='function' @click.prevent='like'><i :class='likeClass' aria-hidden="true"></i></a>
+      <a class='function' @click.prevent='like'><i :class='likeClass' aria-hidden="true"></i></a>
       <a class='function' :href='url'><i class="fa fa-external-link" aria-hidden="true"></i></a>
     </div>
   </div>
@@ -36,7 +36,6 @@
 <script>
 import moment from 'moment';
 import ResponsiveImage from './ResponsiveImage.vue';
-import { loadArchives } from '../vuex/actions';
 
 export default {
   props: ['status'],
@@ -48,11 +47,8 @@ export default {
     timeago() {
       return moment(new Date(this.datetime)).fromNow(true);
     },
-    needLike() {
-      return typeof this.archived !== 'undefined';
-    },
     likeClass() {
-      return ['fa', (this.archived && this.favorited) ? 'fa-heart' : 'fa-heart-o'];
+      return ['fa', this.favorited ? 'fa-heart' : 'fa-heart-o'];
     },
   },
   methods: {
@@ -61,20 +57,14 @@ export default {
       const slug = this.$route.params.slug;
       const statusId = this.idStr;
 
-      this.archived = true;
       this.favorited = true;
       try {
         await this.$http.post('/twitter/like', { owner, slug, statusId });
       } catch (err) {
-        this.archived = false;
         this.favorited = false;
         throw err;
       }
-      this.loadArchives();
     },
-  },
-  vuex: {
-    actions: { loadArchives },
   },
 };
 </script>

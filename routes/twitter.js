@@ -128,11 +128,6 @@ router.get('/lists/:owner/:slug', route(async (req, res) => {
       formatStatus(rawStatus)
     );
 
-  await Promise.all(statuses.map(async status => {
-    const list = `${req.params.owner}/${req.params.slug}`;
-    Object.assign(status, {archived: await req.user.hasArchived(list, status.idStr)})
-  }));
-
   res.json({
     from: rawStatuses[rawStatuses.length - 1].id_str,
     to: rawStatuses[0].id_str,
@@ -166,15 +161,6 @@ router.post('/like', route(async (req, res) => {
   }
 
   const status = formatStatus(raw.data);
-
-  const list = `${req.body.owner}/${req.body.slug}`;
-  try {
-    await req.user.saveStatus(list, status);
-  } catch (err) {
-    if (err.name !== 'SequelizeUniqueConstraintError') {
-      throw err;
-    }
-  }
 
   res.json(status);
 }));

@@ -35,17 +35,3 @@ export async function loadLists({ dispatch }) {
   }
   dispatch('SET_LISTS', res.json());
 }
-
-export async function loadArchives({ dispatch }) {
-  let res;
-  try {
-    res = await this.$http.get('/archives');
-  } catch (res) {
-    if (res.status === 401) {
-      this.$router.go('/login');
-      return;
-    }
-    throw res;
-  }
-  dispatch('SET_ARCHIVES', res.json());
-}

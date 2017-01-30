@@ -13,23 +13,14 @@
       </form>
     </div>
     <div class='section'>
-      <h3>Archives</h3>
-      <ul v-if='archives.length > 0'>
-        <li v-for='archive in archives'>
-          <a v-link="archiveLink(archive)" @click='closeMenu'>{{ archive.owner }}/{{ archive.name }}</a>
-        </li>
-      </ul>
-      <ul v-else><li>none</li></ul>
-    </div>
-    <div class='section'>
       <button id='logout' @click='logout'>logout</button>
     </div>
   </div>
 </template>
 
 <script>
-import { lists, archives } from '../vuex/getters';
-import { logout, loadLists, loadArchives, closeMenu } from '../vuex/actions';
+import { lists } from '../vuex/getters';
+import { logout, loadLists, closeMenu } from '../vuex/actions';
 import { menuOpen } from '../vuex/getters';
 
 export default {
@@ -38,7 +29,6 @@ export default {
   },
   async created() {
     this.loadLists();
-    this.loadArchives();
   },
   methods: {
     listLink(list) {
@@ -47,15 +37,6 @@ export default {
         params: {
           owner: list.owner,
           slug: list.slug,
-        },
-      };
-    },
-    archiveLink(archive) {
-      return {
-        name: 'archive',
-        params: {
-          owner: archive.owner,
-          slug: archive.slug,
         },
       };
     },
@@ -77,8 +58,8 @@ export default {
     },
   },
   vuex: {
-    getters: { lists, archives, menuOpen },
-    actions: { logout, loadLists, loadArchives, closeMenu },
+    getters: { lists, menuOpen },
+    actions: { logout, loadLists, closeMenu },
   },
 };
 </script>

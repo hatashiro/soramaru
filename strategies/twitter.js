@@ -1,16 +1,23 @@
 import passport from 'passport';
 import twitterConfig from '../config/twitter';
 import TwitterStrategy from 'passport-twitter';
-import User from '../models/user';
+import { client as redis } from '../lib/redis';
 
-let user = null;
+const key = id => `soramaru|user|${id}`;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id, done) => {
-  done(null, await User.findById(id));
+passport.deserializeUser((id, done) => {
+  redis.get(key(id), (err, raw) => {
+    if (err) {
+      done(err);
+      return;
+    }
+
+    done(null, JSON.parse(raw));
+  });
 });
 
 function getThumbnail(profile) {
@@ -23,16 +30,22 @@ function getThumbnail(profile) {
 
 const twitterStrategy = new TwitterStrategy(
   twitterConfig,
-  async (token, tokenSecret, profile, callback) => {
-    const user = await User.insertOrUpdate({
+  (token, tokenSecret, profile, callback) => {
+    const user = {
       id: profile.id,
       username: profile.username,
       thumbnail: getThumbnail(profile),
       token,
       tokenSecret,
-    });
+    };
 
-    callback(null, await User.findById(profile.id));
+    redis.set(key(profile.id), JSON.stringify(user), err => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      callback(null, user);
+    });
   }
 );
 

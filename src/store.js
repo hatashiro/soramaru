@@ -7,7 +7,6 @@ const state = {
   user: null,
   menuOpen: false,
   lists: [],
-  archives: [],
 };
 
 const mutations = {
@@ -25,9 +24,6 @@ const mutations = {
   },
   SET_LISTS(state, lists) {
     state.lists = lists;
-  },
-  SET_ARCHIVES(state, archives) {
-    state.archives = archives;
   },
 };
 
