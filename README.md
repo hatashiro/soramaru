@@ -8,13 +8,12 @@ A Twitter list viewer for images
 
 ## Configuration
 
-Redis and PostgreSQL are needed to run a server.
+Running Redis instance is needed.
 
-Also, following files should exist in `config`. Please refer to their samples,
-or you can just start by copying them.
+Following files should exist in `config`. Please refer to their samples, or you
+can just start by copying them.
 
 - `config/app.js`
-- `config/dev.js`
 - `config/twitter.js`
 
 ```
@@ -34,13 +33,7 @@ cd soramaru
 Install dependencies:
 
 ```
-npm install
-```
-
-Sync database tables:
-
-```
-npm run syncdb
+yarn
 ```
 
 Run a dev server:
@@ -52,7 +45,7 @@ node .
 Build production assets:
 
 ```
-npm run build
+yarn build
 ```
 
 Run a production server:
